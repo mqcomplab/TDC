@@ -21,7 +21,6 @@ try:
 
     rdBase.DisableLog("rdApp.error")
     from rdkit.Chem import rdMolDescriptors
-    from rdkit.six import iteritems
 except:
     raise ImportError(
         "Please install rdkit by 'conda install -c conda-forge rdkit'! ")
@@ -381,7 +380,7 @@ def calculateScore(m):
     fps = fp.GetNonzeroElements()
     score1 = 0.0
     nf = 0
-    for bitId, v in iteritems(fps):
+    for bitId, v in fps.items():
         nf += v
         sfp = bitId
         score1 += _fscores.get(sfp, -4) * v
@@ -504,7 +503,7 @@ def drd2(smile):
     if mol:
         fp = fingerprints_from_mol(mol)
         score = drd2_model.predict_proba(fp)[:, 1]
-        drd_score = float(score)
+        drd_score = float(score[0])
         return drd_score
     return 0.0
 
