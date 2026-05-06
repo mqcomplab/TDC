@@ -36,5 +36,6 @@ setup(
     zip_safe=False,
     include_package_data=True,
     install_requires=requirements,
-    setup_requires=["setuptools>=38.6.0"],
+    # setuptools<81 required due to reliance on pkg_resources
+    setup_requires=["setuptools<81"],
 )
