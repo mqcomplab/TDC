@@ -2,6 +2,7 @@
 # Author: TDC Team
 # License: MIT
 
+from pathlib import Path
 import pickle
 import numpy as np
 import os.path as op
@@ -449,6 +450,9 @@ def load_pickled_model(name: str):
     Returns:
       The model.
     """
+    if name.startswith("oracle/"):
+        parts = name.split("/")
+        name = str(Path.home() / ".local" / "share" / "tdc-cache" / parts[0] / parts[1])
 
     try:
         with open(name, "rb") as f:

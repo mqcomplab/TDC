@@ -37,6 +37,10 @@ class Oracle:
 
     def __init__(self, name, target_smiles=None, num_max_call=None, **kwargs):
         """Summary"""
+        if "verbose" in kwargs:
+            verbose = kwargs.pop("verbose")
+        else:
+            verbose = True
         self.target_smiles = target_smiles
         self.kwargs = kwargs
         self.normalize = lambda x: x
@@ -51,7 +55,7 @@ class Oracle:
                     name += "_current"
             ### download
             ##### e.g., jnk, gsk, drd2, ...
-            self.name = oracle_load(name)
+            self.name = oracle_load(name, verbose=verbose)
         elif name in download_receptor_oracle_name:
             ## '1iep_docking', '2rgp_docking', '7l11_docking', 'drd3_docking', '3pbl_docking',
             pdbid = name.split("_")[0]

@@ -3,11 +3,11 @@ datasets<2.20.0
 evaluate>=0.4.2
 fuzzywuzzy>=0.18.0
 huggingface_hub>=0.20.3
-numpy>=2.0
+numpy==1.26.4
 openpyxl>=3.0.10
 pandas>=2.1.4
 requests>=2.31.0
-scikit-learn>=1.2.2
+scikit-learn<=1.2.2
 seaborn>=0.12.2
 tqdm>=4.65.0
 transformers>=4.43.0

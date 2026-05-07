@@ -1,5 +1,6 @@
 """wrapper for download various dataset
 """
+from pathlib import Path
 import requests
 from zipfile import ZipFile
 import os, sys
@@ -180,7 +181,7 @@ def dataverse_download(url, path, name, types, id=None):
     progress_bar.close()
 
 
-def oracle_download_wrapper(name, path, oracle_names):
+def oracle_download_wrapper(name, path, oracle_names, verbose):
     """wrapper for downloading an oracle model checkpoint given the name and path
 
     Args:
@@ -202,12 +203,15 @@ def oracle_download_wrapper(name, path, oracle_names):
         os.mkdir(path)
 
     if os.path.exists(os.path.join(path, name + "." + oracle2type[name])):
-        print_sys("Found local copy...")
+        if verbose:
+            print_sys("Found local copy...")
     else:
-        print_sys("Downloading Oracle...")
+        if verbose:
+            print_sys("Downloading Oracle...")
         dataverse_download(dataset_path, path, name,
                            oracle2type)  ## to-do to-check
-        print_sys("Done!")
+        if verbose:
+            print_sys("Done!")
     return name
 
 
@@ -641,7 +645,7 @@ def generation_dataset_load(name, path, dataset_names):
     return df["input"], df["target"]
 
 
-def oracle_load(name, path="./oracle", oracle_names=oracle_names):
+def oracle_load(name, path=None, oracle_names=oracle_names, verbose=True):
     """a wrapper to download, process and load oracles.
 
     Args:
@@ -652,8 +656,11 @@ def oracle_load(name, path="./oracle", oracle_names=oracle_names):
     Returns:
         str: exact oracle name
     """
-    name = oracle_download_wrapper(name, path, oracle_names)
-    return name
+    if path is None:
+        path = Path.home() / ".local" / "share" / "tdc-cache" / "oracle"
+        path.mkdir(parents=True, exist_ok=True)
+        path = str(path)
+    return oracle_download_wrapper(name, path, oracle_names, verbose=verbose)
 
 
 def receptor_load(name, path="./oracle"):

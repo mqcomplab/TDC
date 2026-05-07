@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools<81", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pytdc"
+dynamic = ["version", "dependencies", "readme"]
+description = "Therapeutics Commons"
+license = { text = "MIT" }
+authors = [
+    { name = "PyTDC Team", email = "amva13@alum.mit.edu" }
+]
+
+[project.urls]
+homepage = "https://github.com/mims-harvard/TDC"
+
+[project.scripts]
+run-oracle = "tdc.cli:main"
+list-oracles = "tdc.cli:ls"
+delete-oracle-cache = "tdc.cli:clean"
+download-oracles = "tdc.cli:download"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["test"]
+
+[tool.setuptools.dynamic]
+version = { attr = "tdc.version.__version__" }
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.dynamic.readme]
+file = ["README.md"]
+content-type = "text/markdown"
